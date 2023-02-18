@@ -21,7 +21,7 @@ RUN \
       | awk '/tag_name/{print $4;exit}' FS='[""]'); \
   fi && \
   mkdir -p /app/nzbget && \
-  git clone https://github.com/nzbget/nzbget.git nzbget && \
+  git clone https://github.com/nzbget-ng/nzbget.git nzbget && \
   cd nzbget/ && \
   git checkout ${NZBGET_RELEASE} && \
   git cherry-pick -n fa57474d && \
