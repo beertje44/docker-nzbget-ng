@@ -198,7 +198,7 @@ Once registered you can define the dockerfile to use with `-f Dockerfile.aarch64
 
 ## Versions
 
-* **19.02.23:** - Forked. Dockerfiles updated to use nzbget-ng with OpenSSL3 fix from original nzbget repository. Rebase master to 3.17.
+* **19.02.23:** - Forked. Dockerfiles updated to use nzbget-ng. Rebase master to 3.17.
 * **31.12.22:** - Deprecate image.  Please consider switching to SABnzbd https://github.com/linuxserver/docker-sabnzbd
 * **27.11.22:** - Advanced notice: This image will be deprecated on 2022-12-31. Please consider switching to SABnzbd https://github.com/linuxserver/docker-sabnzbd
 * **13.11.22:** - Rebase master to 3.16, migrate to s6v3.
