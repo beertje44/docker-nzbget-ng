@@ -29,8 +29,8 @@ RUN \
   autoreconf --install && \
 #  git checkout ${NZBGET_RELEASE} && \
 #  git cherry-pick -n fa57474d && \
-   # Merge OpenSSL3 Fix - https://github.com/nzbget/nzbget/pull/793
-   git pull origin pull/793/head
+  # Merge OpenSSL3 Fix - https://github.com/nzbget/nzbget/pull/793
+  git pull origin pull/793/head && \
   ./configure \
     bindir='${exec_prefix}' && \
   make && \
