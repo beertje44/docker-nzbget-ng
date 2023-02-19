@@ -1,4 +1,4 @@
-# bradpeczka/docker-nzbget-ng(https://github.com/bradpeczka/docker-nzbget-ng/)
+# [bradpeczka/docker-nzbget-ng](https://github.com/bradpeczka/docker-nzbget-ng/)
 
 This is a fork of the original [LSIO docker-nzbget repository](https://github.com/linuxserver/docker-nzbget), that has been updated to use the [nzbget-ng](https://github.com/nzbget-ng/nzbget) along with a varity of improvements and fixes.
 
