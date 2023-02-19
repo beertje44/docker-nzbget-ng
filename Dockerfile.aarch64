@@ -1,8 +1,8 @@
 # Buildstage
-FROM ghcr.io/linuxserver/baseimage-alpine:arm64v8-3.16 as buildstage
+FROM ghcr.io/linuxserver/baseimage-alpine:arm64v8-3.17 as buildstage
 
 # set NZBGET version
-ARG NZBGET_RELEASE
+#ARG NZBGET_RELEASE
 
 RUN \
   echo "**** install build packages ****" && \
@@ -13,18 +13,24 @@ RUN \
     libxml2-dev \
     libxslt-dev \
     make \
+	automake \
+	autoconf \
     ncurses-dev \
     openssl-dev && \
   echo "**** build nzbget ****" && \
-  if [ -z ${NZBGET_RELEASE+x} ]; then \
-    NZBGET_RELEASE=$(curl -sX GET "https://api.github.com/repos/nzbget/nzbget/releases/latest" \
-      | awk '/tag_name/{print $4;exit}' FS='[""]'); \
-  fi && \
+# FIXME: once nzbget-ng sort releases
+#  if [ -z ${NZBGET_RELEASE+x} ]; then \
+#    NZBGET_RELEASE=$(curl -sX GET "https://api.github.com/repos/nzbget/nzbget/releases/latest" \
+#      | awk '/tag_name/{print $4;exit}' FS='[""]'); \
+#  fi && \
   mkdir -p /app/nzbget && \
   git clone https://github.com/nzbget-ng/nzbget.git nzbget && \
   cd nzbget/ && \
-  git checkout ${NZBGET_RELEASE} && \
-  git cherry-pick -n fa57474d && \
+  autoreconf --install && \
+#  git checkout ${NZBGET_RELEASE} && \
+#  git cherry-pick -n fa57474d && \
+   # Merge OpenSSL3 Fix - https://github.com/nzbget/nzbget/pull/793
+   git pull origin pull/793/head
   ./configure \
     bindir='${exec_prefix}' && \
   make && \
@@ -53,7 +59,7 @@ RUN \
     "https://curl.haxx.se/ca/cacert.pem"
 
 # Runtime Stage
-FROM ghcr.io/linuxserver/baseimage-alpine:arm64v8-3.16
+FROM ghcr.io/linuxserver/baseimage-alpine:arm64v8-3.17
 
 ARG UNRAR_VERSION=6.1.7
 # set version label
