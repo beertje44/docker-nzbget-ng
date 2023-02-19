@@ -110,7 +110,7 @@ RUN \
     pynzbget \
     rarfile \
     six && \
-  ln -s /usr/bin/python3 /usr/bin/python && \
+#  ln -s /usr/bin/python3 /usr/bin/python && \
   echo "**** cleanup ****" && \
   apk del --purge \
     build-dependencies && \
