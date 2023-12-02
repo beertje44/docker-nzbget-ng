@@ -1,8 +1,8 @@
 # Buildstage
-FROM ghcr.io/linuxserver/baseimage-alpine:3.17 as buildstage
+FROM ghcr.io/linuxserver/baseimage-alpine:3.18 as buildstage
 
 # set NZBGET version
-# ARG NZBGET_RELEASE
+ARG NZBGET_RELEASE
 
 RUN \
   echo "**** install build packages ****" && \
@@ -10,6 +10,7 @@ RUN \
     g++ \
     gcc \
     git \
+    libcap-dev \
     libxml2-dev \
     libxslt-dev \
     make \
@@ -27,11 +28,11 @@ RUN \
   git clone https://github.com/nzbget-ng/nzbget.git nzbget && \
   cd nzbget/ && \
   autoreconf --install && \
-#  git checkout ${NZBGET_RELEASE} && \
+  git checkout ${NZBGET_RELEASE} && \
 #  git cherry-pick -n fa57474d && \
   ./configure \
     bindir='${exec_prefix}' && \
-  make && \
+  make -j32 && \
   make prefix=/app/nzbget install && \
   sed -i \
     -e "s#^MainDir=.*#MainDir=/downloads#g" \
@@ -57,9 +58,9 @@ RUN \
     "https://curl.haxx.se/ca/cacert.pem"
 
 # Runtime Stage
-FROM ghcr.io/linuxserver/baseimage-alpine:3.17
+FROM ghcr.io/linuxserver/baseimage-alpine:3.18
 
-ARG UNRAR_VERSION=6.1.7
+ARG UNRAR_VERSION=6.2.2
 # set version label
 ARG BUILD_DATE
 ARG VERSION
@@ -77,12 +78,13 @@ RUN \
     libxml2-dev \
     libxslt-dev \
     make \
-    openssl-dev \
     python3-dev && \
   echo "**** install packages ****" && \
   apk add --no-cache \
+    libcap \
     libxml2 \
     libxslt \
+    openjdk17-jre-headless \
     openssl \
     p7zip \
     py3-pip \
@@ -104,7 +106,9 @@ RUN \
     wheel && \
   pip install --no-cache-dir --find-links https://wheel-index.linuxserver.io/alpine-3.16/ \
     apprise \
+    beets \
     chardet \
+    jellyfish==0.10.0 \
     lxml \
     py7zr \
     pynzbget \
