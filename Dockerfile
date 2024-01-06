@@ -60,12 +60,12 @@ RUN \
 # Runtime Stage
 FROM ghcr.io/linuxserver/baseimage-alpine:3.18
 
-ARG UNRAR_VERSION=6.2.2
+ARG UNRAR_VERSION=6.2.4
 # set version label
 ARG BUILD_DATE
 ARG VERSION
 LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
-LABEL maintainer="thelamer"
+LABEL maintainer="jb044"
 
 RUN \
   echo "**** install build packages ****" && \
@@ -104,7 +104,7 @@ RUN \
   pip3 install --no-cache-dir -U \
     pip \
     wheel && \
-  pip install --no-cache-dir --find-links https://wheel-index.linuxserver.io/alpine-3.16/ \
+  pip install --no-cache-dir --find-links https://wheel-index.linuxserver.io/alpine-3.18/ \
     apprise \
     beets \
     chardet \
@@ -114,6 +114,17 @@ RUN \
     pynzbget \
     rarfile \
     six && \
+  #apk add --no-cache \
+  #  py3-wheel \
+  #  py3-apprise \
+  #  py3-beets \
+  #  py3-chardet \
+  #  py3-jellyfish \
+  #  py3-lxml \
+  #  py3-py7zr \
+  #  py3-pynzbget \
+  #  py3-rarfile \
+  #  py3-six && \
 #  ln -s /usr/bin/python3 /usr/bin/python && \
   echo "**** cleanup ****" && \
   apk del --purge \
